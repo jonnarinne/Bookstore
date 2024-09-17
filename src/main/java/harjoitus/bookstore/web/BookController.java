@@ -2,6 +2,7 @@ package harjoitus.bookstore.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import harjoitus.bookstore.domain.Book;
 import harjoitus.bookstore.domain.BookRepository;
+import harjoitus.bookstore.domain.CategoryRepository;
+
 
 @Controller
 public class BookController {
+
+	@Autowired
+	private CategoryRepository crepository; 
 
     private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
@@ -29,6 +35,7 @@ public class BookController {
         return "Bookstore";
     }
 
+	// Näytetään kaikki kirjat
     @GetMapping("/booklist")
 	public String showBooks(Model model) {
 		log.info("Read books from database..");
@@ -36,19 +43,23 @@ public class BookController {
 		return "booklist";
 	}
 
+	// Lisätään kirja
     @GetMapping("/newbook")
 	public String addBook(Model model) {
 		log.info("Lets go to create a book....");
 		model.addAttribute("book", new Book());
+		model.addAttribute("categories", crepository.findAll());
 		return "addbook";
 	}
 
+	// Tallennetaan uusi tai muokattu kirja
     @PostMapping("/saveBook")
-	public String saveCar(@ModelAttribute("book") Book book) {
+	public String saveBook(@ModelAttribute("book") Book book) {
 		bookRepository.save(book);
 		return "redirect:booklist";
 	}
 
+	// Poistetaan kirja
     @GetMapping("delete/{id}")
 	public String deleteBook(@PathVariable("id") Long id, Model model) {
 		log.info("delete book " + id);
@@ -56,9 +67,11 @@ public class BookController {
 		return "redirect:/booklist";
 	}
 
+	// Muokataan kirjaa
     @GetMapping("editbook/{id}")
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("editbook", bookRepository.findById(id));
+		model.addAttribute("categories", crepository.findAll());
 		return "editbook";
 	}
     

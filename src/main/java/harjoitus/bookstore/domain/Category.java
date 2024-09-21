@@ -10,7 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Id;
 import jakarta.persistence.CascadeType;
-
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -18,7 +19,10 @@ public class Category {
  
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+	@NotNull
 	private Long categoryid;
+
+	@Size(min=5, max=30)
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")

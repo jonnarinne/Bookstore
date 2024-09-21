@@ -6,18 +6,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 @Entity
 public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
 	private long id;
 
+	@Size(min=5, max=30)
     private String title;
+
+	@Size(min=5, max=30)
 	private String author;
+
+	@NotNull
 	private int publicationYear;
+
+	@NotNull
 	private int isbn;
+
+	@NotNull
 	private int price;
 
 	@ManyToOne

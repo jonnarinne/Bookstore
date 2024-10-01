@@ -2,6 +2,7 @@ package harjoitus.bookstore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,8 @@ import harjoitus.bookstore.domain.Category;
 import harjoitus.bookstore.domain.CategoryRepository;
 import harjoitus.bookstore.domain.Book;
 import harjoitus.bookstore.domain.BookRepository;
+import harjoitus.bookstore.domain.AppUser;
+import harjoitus.bookstore.domain.AppUserRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -21,7 +24,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-		public CommandLineRunner demoData(BookRepository bookRepository, CategoryRepository crepository) {
+		public CommandLineRunner demoData(BookRepository bookRepository, CategoryRepository crepository, AppUserRepository urepository) {
 			return (args) -> {
 				log.info("save some books");
 
@@ -38,6 +41,11 @@ public class BookstoreApplication {
 				bookRepository.save(new Book("Harry Potter ja Viisasten kivi", "J.K. Rowling", 1997, 5511, 7));
 				bookRepository.save(new Book("Margarita", "Anni Kytömäki", 2020, 1122, 10));
 
+				AppUser user1 = new AppUser("user", "$2a$10$GCNSYY8Rs9zV0YL0lainN.XBKOlq8/nB4Sf/voyCWKPzgSVupKIiW", "appuser@appuser.com", "USER");
+				AppUser user2 = new AppUser("admin", "$2a$10$Oj9Tv75nMXoHQzwxTo1Tseuxf0jwEVkykBFQ6BfI6Ny75GAj0sOjq", "admin@admin.com", "ADMIN");
+				
+				urepository.save(user1);
+				urepository.save(user2);
 
 				log.info("tulostetaan kirjat");
 				for (Book book : bookRepository.findAll()) {

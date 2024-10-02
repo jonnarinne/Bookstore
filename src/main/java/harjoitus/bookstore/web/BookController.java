@@ -44,6 +44,7 @@ public class BookController {
 	}
 
 	// Lisätään kirja
+	@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/newbook")
 	public String addBook(Model model) {
 		log.info("Lets go to create a book....");
@@ -53,6 +54,7 @@ public class BookController {
 	}
 
 	// Tallennetaan uusi tai muokattu kirja
+	@PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/saveBook")
 	public String saveBook(@ModelAttribute("book") Book book) {
 		bookRepository.save(book);
@@ -60,7 +62,7 @@ public class BookController {
 	}
 
 	// Poistetaan kirja
-	@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("delete/{id}")
 	public String deleteBook(@PathVariable("id") Long id, Model model) {
 		log.info("delete book " + id);
@@ -69,6 +71,7 @@ public class BookController {
 	}
 
 	// Muokataan kirjaa
+	@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("editbook/{id}")
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("editbook", bookRepository.findById(id));

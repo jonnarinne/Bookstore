@@ -28,6 +28,7 @@ public class WebSecurityConfig {
 		http
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers(antMatcher("/css/**")).permitAll()
+				.requestMatchers("/newbook", "/delete/**", "/editbook/**").hasRole("ADMIN") // Vain admin voi käyttää näitä
 				.anyRequest().authenticated()
 			).formLogin(formlogin -> formlogin
 				.loginPage("/login")

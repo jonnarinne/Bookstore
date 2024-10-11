@@ -33,7 +33,7 @@ public class BookRepositoryTest {
     }
     
     @Test
-    public void deleteNewBookt() {
+    public void deleteNewBook() {
 		List<Book> books = bookRepository.findByTitle("Harry Potter");
 		Book book = books.get(0);
 		bookRepository.delete(book);
